@@ -14,6 +14,7 @@ defmodule CalculatorWeb.ChannelCase do
   by setting `use CalculatorWeb.ChannelCase, async: true`, although
   this option is not recommended for other databases.
   """
+  alias Ecto.Adapters.SQL.Sandbox
 
   use ExUnit.CaseTemplate
 
@@ -29,10 +30,10 @@ defmodule CalculatorWeb.ChannelCase do
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Calculator.Repo)
+    :ok = Sandbox.checkout(Calculator.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Calculator.Repo, {:shared, self()})
+      Sandbox.mode(Calculator.Repo, {:shared, self()})
     end
 
     :ok

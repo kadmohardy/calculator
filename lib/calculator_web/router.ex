@@ -5,8 +5,9 @@ defmodule CalculatorWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", CalculatorWeb do
+  scope "/api", DotoApiWeb.Api, as: :api do
     pipe_through :api
+    resources "/operations", OperationController, only: [:index, :create]
   end
 
   # Enables LiveDashboard only for development

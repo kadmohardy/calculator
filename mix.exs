@@ -32,6 +32,10 @@ defmodule Calculator.MixProject do
         "coveralls.post": :test,
         "coveralls.json": :test,
         "coveralls.html": :test
+      ],
+      dialyzer: [
+        plt_file: {:no_warn, "priv/plts/dialyzer.plt"},
+        ignore_warnings: ".dialyzer_ignore.exs"
       ]
     ]
   end
@@ -66,8 +70,10 @@ defmodule Calculator.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
-      {:sobelow, "~> 0.8", only: :dev},
-      {:excoveralls, "~> 0.13.0", only: :test}
+      {:sobelow, "~> 0.8", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
+      {:excoveralls, "~> 0.13.0", only: :test},
+      {:params, "~> 2.0"}
     ]
   end
 
@@ -82,7 +88,15 @@ defmodule Calculator.MixProject do
       setup: ["deps.get", "ecto.setup"],
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
+      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
+      quality: ["format", "credo --strict", "sobelow --verbose", "dialyzer", "test"],
+      "quality.ci": [
+        "test",
+        "format --check-formatted",
+        "credo --strict",
+        "sobelow --exit",
+        "dialyzer --halt-exit-status"
+      ]
     ]
   end
 end
