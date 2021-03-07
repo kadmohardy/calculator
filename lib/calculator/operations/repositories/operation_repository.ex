@@ -56,40 +56,6 @@ defmodule Calculator.Operations.Repositories.OperationRepository do
   end
 
   @doc """
-  Updates a operation.
-
-  ## Examples
-
-      iex> update_operation(operation, %{field: new_value})
-      {:ok, %Operation{}}
-
-      iex> update_operation(operation, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_operation(%Operation{} = operation, attrs) do
-    operation
-    |> Operation.changeset(attrs)
-    |> Repo.update()
-  end
-
-  @doc """
-  Deletes a operation.
-
-  ## Examples
-
-      iex> delete_operation(operation)
-      {:ok, %Operation{}}
-
-      iex> delete_operation(operation)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_operation(%Operation{} = operation) do
-    Repo.delete(operation)
-  end
-
-  @doc """
   Returns an `%Ecto.Changeset{}` for tracking operation changes.
 
   ## Examples

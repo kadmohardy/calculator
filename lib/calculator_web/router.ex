@@ -5,7 +5,7 @@ defmodule CalculatorWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", DotoApiWeb.Api, as: :api do
+  scope "/api", CalculatorWeb.Api, as: :api do
     pipe_through :api
     resources "/operations", OperationController, only: [:index, :create]
   end

@@ -15,6 +15,7 @@ defmodule CalculatorWeb.Api.OperationView do
       id: operation.id,
       number_one: operation.number_one,
       number_two: operation.number_two,
+      result: operation.result,
       type: operation.type
     }
   end

@@ -11,7 +11,12 @@ defmodule CalculatorWeb.Api.Params.OperationParams do
   def child(ch, params) do
     ch
     |> cast(params, [:number_one, :number_two, :operation_type])
-    |> validate_required([:number_one, :number_two, :operation_type])
-    |> validate_inclusion(:operation_type, ["som", "subtracao", "multiplicacao", "divisao"])
+    |> validate_required([:number_one, :number_two, :operation_type],
+      message: "O parâmetro é obrigatório"
+    )
+    |> validate_inclusion(:operation_type, ["soma", "subtracao", "multiplicacao", "divisao"],
+      message:
+        "Por favor, escolha uma das seguintes operaçoes: soma, subtracao, multiplica, divisao"
+    )
   end
 end
