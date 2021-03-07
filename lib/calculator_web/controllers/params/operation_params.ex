@@ -1,7 +1,7 @@
 defmodule CalculatorWeb.Api.Params.OperationParams do
   use Params.Schema, %{
-    number_one: :number,
-    number_two: :number,
+    number_one: :decimal,
+    number_two: :decimal,
     operation_type: :string
   }
 
