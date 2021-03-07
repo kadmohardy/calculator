@@ -19,12 +19,12 @@ COPY config config
 RUN mix do deps.get, deps.compile
 
 # build assets
-COPY assets/package.json assets/package-lock.json ./assets/
-RUN npm --prefix ./assets ci --progress=false --no-audit --loglevel=error
+# COPY assets/package.json assets/package-lock.json ./assets/
+# RUN npm --prefix ./assets ci --progress=false --no-audit --loglevel=error
 
-COPY priv priv
-COPY assets assets
-RUN npm run --prefix ./assets deploy
+# COPY priv priv
+# COPY assets assets
+# RUN npm run --prefix ./assets deploy
 RUN mix phx.digest
 
 # compile and build release
@@ -42,8 +42,8 @@ RUN chown nobody:nobody /app
 
 USER nobody:nobody
 
-COPY --from=build --chown=nobody:nobody /app/_build/prod/rel/doto_api ./
+COPY --from=build --chown=nobody:nobody /app/_build/prod/rel/calculator ./
 
 ENV HOME=/app
 
-CMD ["bin/doto_api", "start"]
+CMD ["bin/calculator", "start"]
