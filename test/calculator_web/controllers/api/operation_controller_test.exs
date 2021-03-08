@@ -1,23 +1,39 @@
 defmodule CalculatorWeb.Api.OperationControllerTest do
   use CalculatorWeb.ConnCase
 
-  alias Calculator.Operations
-  alias Calculator.Operations.Operation
+  alias Calculator.Operations.Entities.Operation
+  alias Calculator.Operations.Repositories.OperationRepository
 
-  @create_attrs %{
-    number_one: "120.5",
-    number_two: "120.5",
-    type: true
+  @create_soma_attrs %{
+    number_one: 120.5,
+    number_two: 120.5,
+    operation_type: "soma"
   }
-  @update_attrs %{
-    number_one: "456.7",
-    number_two: "456.7",
-    type: false
+
+  @create_subtracao_attrs %{
+    number_one: 120.5,
+    number_two: 11.5,
+    operation_type: "subtracao"
   }
-  @invalid_attrs %{number_one: nil, number_two: nil, type: nil}
+
+  @create_multiplicacao_attrs %{
+    number_one: 12,
+    number_two: 11.5,
+    operation_type: "multiplicacao"
+  }
+
+  @create_divisao_attrs %{
+    number_one: 12,
+    number_two: 1.4,
+    operation_type: "divisao"
+  }
+
+  @create_attrs_2 %{number_one: 120.5, number_two: 0, operation_type: "divisao"}
+
+  @invalid_attrs %{number_one: "nil", number_two: "nil", operation_type: "nil"}
 
   def fixture(:operation) do
-    {:ok, operation} = Operations.create_operation(@create_attrs)
+    {:ok, operation} = OperationRepository.create_operation(@create_attrs)
     operation
   end
 
@@ -33,66 +49,42 @@ defmodule CalculatorWeb.Api.OperationControllerTest do
   end
 
   describe "create operation" do
-    test "renders operation when data is valid", %{conn: conn} do
-      conn = post(conn, Routes.api_operation_path(conn, :create), operation: @create_attrs)
+    test "renders operation soma when data is valid", %{conn: conn} do
+      conn = post(conn, Routes.api_operation_path(conn, :create), operation: @create_soma_attrs)
       assert %{"id" => id} = json_response(conn, 201)["data"]
+    end
 
-      conn = get(conn, Routes.api_operation_path(conn, :show, id))
+    test "renders operation subtracao when data is valid", %{conn: conn} do
+      conn =
+        post(conn, Routes.api_operation_path(conn, :create), operation: @create_subtracao_attrs)
 
-      assert %{
-               "id" => id,
-               "number_one" => "120.5",
-               "number_two" => "120.5",
-               "type" => true
-             } = json_response(conn, 200)["data"]
+      assert %{"id" => id} = json_response(conn, 201)["data"]
+    end
+
+    test "renders operation mutiplicacao when data is valid", %{conn: conn} do
+      conn =
+        post(conn, Routes.api_operation_path(conn, :create),
+          operation: @create_multiplicacao_attrs
+        )
+
+      assert %{"id" => id} = json_response(conn, 201)["data"]
+    end
+
+    test "renders operation division when data is valid", %{conn: conn} do
+      conn =
+        post(conn, Routes.api_operation_path(conn, :create), operation: @create_divisao_attrs)
+
+      assert %{"id" => id} = json_response(conn, 201)["data"]
+    end
+
+    test "renders errors when division by zero", %{conn: conn} do
+      conn = post(conn, Routes.api_operation_path(conn, :create), operation: @create_attrs_2)
+      assert json_response(conn, 400)["error"] != %{}
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
       conn = post(conn, Routes.api_operation_path(conn, :create), operation: @invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
-    end
-  end
-
-  describe "update operation" do
-    setup [:create_operation]
-
-    test "renders operation when data is valid", %{
-      conn: conn,
-      operation: %Operation{id: id} = operation
-    } do
-      conn =
-        put(conn, Routes.api_operation_path(conn, :update, operation), operation: @update_attrs)
-
-      assert %{"id" => ^id} = json_response(conn, 200)["data"]
-
-      conn = get(conn, Routes.api_operation_path(conn, :show, id))
-
-      assert %{
-               "id" => id,
-               "number_one" => "456.7",
-               "number_two" => "456.7",
-               "type" => false
-             } = json_response(conn, 200)["data"]
-    end
-
-    test "renders errors when data is invalid", %{conn: conn, operation: operation} do
-      conn =
-        put(conn, Routes.api_operation_path(conn, :update, operation), operation: @invalid_attrs)
-
-      assert json_response(conn, 422)["errors"] != %{}
-    end
-  end
-
-  describe "delete operation" do
-    setup [:create_operation]
-
-    test "deletes chosen operation", %{conn: conn, operation: operation} do
-      conn = delete(conn, Routes.api_operation_path(conn, :delete, operation))
-      assert response(conn, 204)
-
-      assert_error_sent 404, fn ->
-        get(conn, Routes.api_operation_path(conn, :show, operation))
-      end
     end
   end
 

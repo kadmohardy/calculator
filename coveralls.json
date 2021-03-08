@@ -1,8 +1,11 @@
 {
   "skip_files": [
+    "lib/calculator.ex",
+    "lib/calculator/repo.ex",
     "lib/calculator/application.ex",
     "lib/calculator/release.ex",
     "lib/calculator_web.ex",
+    "lib/calculator_web/channels/user_socket.ex",
     "lib/calculator_web/views/error_helpers.ex",
     "test/support/channel_case.ex"
   ],

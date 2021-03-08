@@ -1,14 +1,13 @@
 defmodule CalculatorWeb.Api.OperationController do
   use CalculatorWeb, :controller
 
-  alias Calculator.Operations.Repositories.OperationRepository
-  alias Calculator.Services.CreateOperationService
+  alias Calculator.Operations.Services.CreateOperationService
+  alias Calculator.Operations.Services.ListOperationsService
   alias CalculatorWeb.Api.Params.OperationParams
-
   action_fallback CalculatorWeb.FallbackController
 
   def index(conn, _params) do
-    operation = OperationRepository.list_operation()
+    operation = ListOperationsService.execute()
     render(conn, "index.json", operation: operation)
   end
 
@@ -17,7 +16,7 @@ defmodule CalculatorWeb.Api.OperationController do
 
     if changeset.valid? do
       with {:ok, operation} <-
-        CreateOperationService.execute(operation_params) do
+             CreateOperationService.execute(operation_params) do
         conn
         |> put_status(:created)
         |> render("show.json", operation: operation)

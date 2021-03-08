@@ -1,4 +1,6 @@
 defmodule CalculatorWeb.Api.Params.OperationParams do
+  @moduledoc false
+
   use Params.Schema, %{
     number_one: :decimal,
     number_two: :decimal,
