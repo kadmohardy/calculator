@@ -1,7 +1,6 @@
 defmodule CalculatorWeb.Api.OperationController do
   use CalculatorWeb, :controller
 
-  alias Calculator.Operations.Repositories.OperationRepository
   alias Calculator.Operations.Services.CreateOperationService
   alias Calculator.Operations.Services.ListOperationsService
   alias CalculatorWeb.Api.Params.OperationParams

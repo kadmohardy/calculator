@@ -18,8 +18,7 @@ defmodule Calculator.Application do
       CalculatorWeb.Endpoint,
       %{
         id: CacheEts,
-        start: {CacheEts, :start_link, []},
-        type: :supervisor
+        start: {CacheEts, :start_link, [:operations]}
       }
       # Start a worker by calling: Calculator.Worker.start_link(arg)
       # {Calculator.Worker, arg}

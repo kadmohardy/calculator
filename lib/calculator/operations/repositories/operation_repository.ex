@@ -54,17 +54,4 @@ defmodule Calculator.Operations.Repositories.OperationRepository do
     |> Operation.changeset(attrs)
     |> Repo.insert()
   end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking operation changes.
-
-  ## Examples
-
-      iex> change_operation(operation)
-      %Ecto.Changeset{data: %Operation{}}
-
-  """
-  def change_operation(%Operation{} = operation, attrs \\ %{}) do
-    Operation.changeset(operation, attrs)
-  end
 end

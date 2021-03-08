@@ -38,7 +38,7 @@ defmodule Calculator.Operations.Services.CreateOperationService do
 
   defp create_operation(operation) do
     with {:ok, operation} <- OperationRepository.create_operation(operation) do
-      OperationsCache.save(@key, OperationRepository.list_operation())
+      OperationsCache.delete(@key)
       {:ok, operation}
     end
   end
