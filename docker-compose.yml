@@ -15,7 +15,7 @@ services:
       HOST_DB: "db"
   db:
     restart: always
-    image: postgres:12
+    image: postgres
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
