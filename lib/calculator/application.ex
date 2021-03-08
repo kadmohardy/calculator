@@ -4,6 +4,7 @@ defmodule Calculator.Application do
   @moduledoc false
 
   use Application
+  alias Calculator.Shared.Cache.Ets.CacheEts
 
   def start(_type, _args) do
     children = [
@@ -14,7 +15,12 @@ defmodule Calculator.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Calculator.PubSub},
       # Start the Endpoint (http/https)
-      CalculatorWeb.Endpoint
+      CalculatorWeb.Endpoint,
+      %{
+        id: CacheEts,
+        start: {CacheEts, :start_link, []},
+        type: :supervisor
+      }
       # Start a worker by calling: Calculator.Worker.start_link(arg)
       # {Calculator.Worker, arg}
     ]

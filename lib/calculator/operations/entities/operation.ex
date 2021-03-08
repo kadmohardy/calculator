@@ -1,4 +1,6 @@
 defmodule Calculator.Operations.Entities.Operation do
+  @moduledoc false
+
   use Ecto.Schema
   import Ecto.Changeset
 
